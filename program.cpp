@@ -4,13 +4,11 @@
 using namespace std;
 
 int main(int argc, char **argv) {
-    int age;
-    cout << "How old are you? - ";
-    cin >> age;
-    cout << "i'm " << age << "." << endl;
-    int *pointer;
-    pointer = &age;
+    int age = 17;
+    int *pointer = &age;
     cout << pointer << endl;
-    sprintf(age);
+    int someNum = 34;
+    *pointer = someNum + *pointer;
+    cout << *pointer << endl;
     return 0;
 }
