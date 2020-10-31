@@ -2,12 +2,15 @@
 using namespace std;
 
 int main(int argc, char **argv) {
-    cout << age(21) << endl;
+    cout << sizeof(int) << endl;
     int *p = NULL;
-    p = new int[5];
-    p[0] = 17;
-    cout << p << endl << p[0] << endl;
-    delete [] p;
-    cout << p << endl << p[0] << endl;
+    cout << sizeof(*p) << " " << sizeof(p) << " " << p << endl;
+    int age = 17;
+    cout << "sizeof \'age\' = " << sizeof(age) << endl;
+    string name = "sizeof empty strsizeof empty strsizeof empty strsizeof empty strsizeof empty strsizeof empty strsizeof empty strsizeof empty strsizeof empty str";
+    cout << "sizeof empty str = " << sizeof(string) << " and name = " << sizeof(name) << endl;
+
+    int arr[33];
+    cout << "Quantity of elements in a array: " << sizeof(arr) / sizeof(arr[0]) << endl;
     return 0;
 }
