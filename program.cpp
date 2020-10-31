@@ -14,3 +14,11 @@ int main(int argc, char **argv) {
     cout << "Quantity of elements in a array: " << sizeof(arr) / sizeof(arr[0]) << endl;
     return 0;
 }
+
+/*
+4
+4 8 0
+sizeof 'age' = 4
+sizeof empty str = 32 and name = 32
+Quantity of elements in a array: 33
+*/
