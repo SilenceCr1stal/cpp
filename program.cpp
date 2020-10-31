@@ -1,15 +1,13 @@
 #include <iostream>
-#include <string>
 using namespace std;
 
 int main(int argc, char **argv) {
-    int *age = new int;
-    *age = 17;
-    cout << *age << endl;
-    delete age;
-    age = new int;
-    *age = 18;
-    cout << *age << endl;
-    delete age;
+    cout << age(21) << endl;
+    int *p = NULL;
+    p = new int[5];
+    p[0] = 17;
+    cout << p << endl << p[0] << endl;
+    delete [] p;
+    cout << p << endl << p[0] << endl;
     return 0;
 }
