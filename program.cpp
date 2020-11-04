@@ -1,24 +1,34 @@
 #include <iostream>
+#include <string.h>
+#include "human.h"
 using namespace std;
 
-int main(int argc, char **argv) {
-    cout << sizeof(int) << endl;
-    int *p = NULL;
-    cout << sizeof(*p) << " " << sizeof(p) << " " << p << endl;
-    int age = 17;
-    cout << "sizeof \'age\' = " << sizeof(age) << endl;
-    string name = "sizeof empty strsizeof empty strsizeof empty strsizeof empty strsizeof empty strsizeof empty strsizeof empty strsizeof empty strsizeof empty str";
-    cout << "sizeof empty str = " << sizeof(string) << " and name = " << sizeof(name) << endl;
-
-    int arr[33];
-    cout << "Quantity of elements in a array: " << sizeof(arr) / sizeof(arr[0]) << endl;
-    return 0;
+human::human(int a, string _name) {
+    cout << "Created" << endl;
+    human::setAge(a);
+    name = _name;
 }
 
-/*
-4
-4 8 0
-sizeof 'age' = 4
-sizeof empty str = 32 and name = 32
-Quantity of elements in a array: 33
-*/
+string human::getName() const {
+    return name;
+}
+
+void human::setAge(int a) {
+    human::age = a;
+}
+
+int human::getAge() const {
+    return human::age;
+}
+
+human::~human() {
+    cout << "Destroyed" << endl;
+}
+
+int main(int argc, char **argv) {
+    const human human1(17, "Artem"); // Created
+    cout << human1.getName() << endl; // Artem
+    const human *p = &human1;
+    cout << p->getAge() << endl; // 17
+    return 0; // Destroyed
+}
