@@ -1,37 +1,52 @@
 #include <iostream>
 #include <string.h>
-#include <time.h>
+#include <ctime>
+#include "city.h"
+#include "building.h"
 #include "human.h"
 #include "birthday.h"
 using namespace std;
 
-human::human(int a, string _name, birthday _date) : age(a), name(_name), date(_date) {
+city::city(unsigned int _square, string _name, building *_build1) : square(_square), name(_name), build1(*_build1) {
     cout << "Created" << endl;
 }
 
-string human::getName() const {
-    return name;
+void city::printInfo() {
+    cout << "Square: " << square << endl;
+    build1.printInfo();
 }
+
+city::~city() {
+    cout << "Destroyed" << endl;
+}
+
+building::building(int _height, human *_human1) : human1(*_human1) {
+    building::setHeight(_height);
+}
+
+void building::setHeight(int _height) {
+    height = _height;
+}
+
+void building::printInfo() {
+    cout << "Height of building: " << height << endl;
+    human1.printInfo();
+}
+
+human::human(string _name, const birthday *_date) : name(_name), date(*_date) {}
 
 void human::printInfo() {
     cout << name << endl;
     date.printDate();
 }
 
-int human::getAge() const {
-    return age;
-}
-
-human::~human() {
-    cout << "Destroyed" << endl;
+void human::dateDeath() {
     time_t rawtime;
     struct tm *timeinfo;
 
-    time(&rawtime);
     timeinfo = localtime(&rawtime);
-    cout << "date of death:" << asctime(timeinfo) << endl;
+    cout << "date of death: " << asctime(timeinfo) << endl;
 }
-
 
 birthday::birthday(int _day, int _month, int _year) : day(_day), month(_month), year(_year) {}
 
@@ -39,21 +54,16 @@ void birthday::printDate() {
     cout << day << "/" << month << "/" << year << endl;
 }
 
-birthday::~birthday() {}
-
-
 int main(int argc, char **argv) {
-    const birthday *date = new birthday(31, 12, 2000);
-    human *human1 = new human(19, "Artem", *date);
-    human1->printInfo();
-    delete date;
-    delete human1;
-}
+    const birthday *date = new birthday(29, 12, 2002);
 
-/*
-Created
-Artem
-31/12/2000
-Destroyed
-date of death:Fri Nov  6 03:07:42 2020
-*/
+    human *human1 = new human("Nikita", date);
+
+    building *build1 = new building(1000, human1);
+
+    city *town = new city(3800000, "USA", build1);
+
+    town->printInfo();
+    delete town;
+    return 0;
+}

@@ -1,19 +1,19 @@
 #ifndef HUMAN_H
 #define HUMAN_H
 #include "birthday.h"
+
 class human {
     public:
-        human(int age, std::string name, birthday date);
-        void setAge(int age);
-        std::string getName() const;
+        human(std::string name, const birthday *date);
         int getAge() const;
+        std::string getName() const;
         void printInfo();
-        ~human();
+        void dateDeath();
     protected:
     private:
-        const int age;
+        unsigned short int age;
         std::string name;
         birthday date;
 };
 
-#endif // HUMAN_H
+#endif // !HUMAN_H
