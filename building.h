@@ -12,4 +12,17 @@ class building {
         human human1;
     };
 
+building::building(int _height, human *_human1) : human1(*_human1) {
+    building::setHeight(_height);
+}
+
+void building::setHeight(int _height) {
+    height = _height;
+}
+
+void building::printInfo() {
+    std::cout << "Height of building: " << height << std::endl;
+    human1.printInfo();
+}
+
 #endif
