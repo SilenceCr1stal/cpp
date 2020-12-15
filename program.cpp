@@ -43,8 +43,6 @@ birthday::~birthday() {}
 
 
 int main(int argc, char **argv) {
-    cout << "Hello" << endl;
-    return 0;
     const birthday *date = new birthday(31, 12, 2000);
     human *human1 = new human(19, "Artem", *date);
     human1->printInfo();
