@@ -1,16 +1,19 @@
 #include <iostream>
-#include <string>
-#include <sstream>
+#include <ctime>
+
 using namespace std;
 
+unsigned long int Factorial(unsigned long int num);
+
 int main(int argc, char **argv) {
-    int age;
-    cout << "How old are you? - ";
-    cin >> age;
-    cout << "i'm " << age << "." << endl;
-    int *pointer;
-    pointer = &age;
-    cout << pointer << endl;
-    sprintf(age);
+
+    cout << Factorial(5) << endl;
     return 0;
+}
+
+unsigned long int Factorial(unsigned long int num) {
+    if (num == 1) 
+        return 1;
+    
+    return num * Factorial(num - 1);
 }
