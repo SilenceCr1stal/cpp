@@ -3,15 +3,17 @@
 
 using namespace std;
 
-template <class A, class B>
-B getSomething(A a, B b);
+unsigned long int Factorial(unsigned long int num);
 
 int main(int argc, char **argv) {
-    cout << getSomething(17, 8.6) << endl;
+
+    cout << Factorial(5) << endl;
     return 0;
 }
 
-template <class A, class B>
-B getSomething(A a, B b) {
-    return a + b;
+unsigned long int Factorial(unsigned long int num) {
+    if (num == 1) 
+        return 1;
+    
+    return num * Factorial(num - 1);
 }
