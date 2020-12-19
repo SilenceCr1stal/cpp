@@ -1,72 +1,28 @@
 #include <iostream>
 #include <string>
-#include <sstream>
-using namespace std;
 
-void change(int *a, int *b);
-int main(int argc, char **argv) {
+
+int main(int argc, char** argv) {
     
-    int myMark = 5;
+    int* age = new int;
 
-    int otherMark = 3;
+    *age = 17;
 
-    const unsigned short int size = 6;
+    int* age2 = new int;
 
-    int arr[size] = {17, 16, 15, 14, 13, 12};
+    *age2 = 28;
 
-    for (int i = 0; i < size; i++) {
-        cout << *(arr + i) << endl;
-        switch (i) {
-            case size - 1:
-                cout << "======================" << endl;
-                break;
-        }
-    }
+    std::cout << *age << " " << age << std::endl;
 
-    int *pArr = arr;
+    age = nullptr;
 
-    *(pArr + 3) = 11;
+    age = age2;
 
-    // cout << arr[3] << endl; // 11
-
-    int mark = 4;
-
-    int *pmark = &mark;
-
-    // cout << pmark << " " << *pmark << endl; // 0x7ffdafb01ddc 4
-
-    *pmark = 5;
-
-    // cout << mark << endl; // 5
-
-    int **ppmark = &pmark;
-
-    // cout << ppmark << " " << **ppmark << endl; // 0x7ffdafb01dd0 5
-
-    **ppmark = 2;
-
-    // cout << mark << endl << "----------------------" << endl; // 2
-    
-    // cout << myMark << " " << otherMark << endl;
-
-    change(&myMark, &otherMark);
-
-    cout << myMark << endl;
-
-    cout << otherMark << endl;
-
-
-    int &a = otherMark;
-
-    a++;
-
-    cout << otherMark << endl;
+    std::cout << *age << " " << age << " " << *age2 << " " << age2 << std::endl;
 
     return 0;
 }
-
-void change(int *a, int *b) {
-    int c = *a;
-    *a = *b;
-    *b = c;
-}
+/*
+    17 0x55579e72ceb0
+    28 0x55579e72ced0 28 0x55579e72ced0
+*/
