@@ -1,28 +1,29 @@
 #include <iostream>
 #include <string>
-
+#include <time.h>
+#define SIZE 5
+#define SIZE_COL 4
 
 int main(int argc, char** argv) {
-    
-    int* age = new int;
+    srand(time(NULL));
+    // int nums[] = {17, 87, 54, 49, 16, 31, 70};
 
-    *age = 17;
 
-    int* age2 = new int;
+    int **ages = new int* [SIZE];
 
-    *age2 = 28;
+    for (int i = 0; i < SIZE; i++) {
+        *(ages + i) = new int[SIZE_COL];
+        for (int j = 0; j < SIZE_COL; j++) {
+            *(*(ages + i) + j) = rand() % 10;
+            std::cout << *(*(ages + i) + j) << "\t";
+        }
+        std::cout << std::endl;
+        if (i == SIZE_COL) {
+                delete [] *(ages + i);
+            }
+    }
 
-    std::cout << *age << " " << age << std::endl;
-
-    age = nullptr;
-
-    age = age2;
-
-    std::cout << *age << " " << age << " " << *age2 << " " << age2 << std::endl;
+    delete [] ages;
 
     return 0;
 }
-/*
-    17 0x55579e72ceb0
-    28 0x55579e72ced0 28 0x55579e72ced0
-*/
