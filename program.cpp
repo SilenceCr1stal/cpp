@@ -1,72 +1,67 @@
 #include <iostream>
 #include <string>
 #include <time.h>
-#define SIZE 5
+// #define SIZE 5
 #define SIZE_LOW 4
 #define SIZE_LOW_LOW 3
 
-void FillArray(int** nums, const int size) {
+void FillArray(int *nums, int &size) { // fill an array with some numbers
+    for (int i = 0; i < size;)
+    {
+        *(nums + i++) = rand() % 100;
+    }
+}
+
+void ShowArray(int* nums, const int size) {
     for (int i = 0; i < size; i++) {
-        *(nums + i) = new int [size];
-        for (int j = 0; j < size; j++) {
-            *(*(nums + i) + j) = rand() % 100;
+        std::cout << *(nums + i) << " ";
+        if (i == size - 1) {
+            std::cout << std::endl;
         }
     }
 }
 
-int main(int argc, char** argv) {
+void AddNumArray(int* &arr, int &size, const int value) { // add a number
+    int* NewArr = new int[size + 1];
+
+    for (int i = 0; i < size; i++) {
+        NewArr[i] = arr[i];
+    }
+
+    NewArr[size++] = value;
+
+    delete [] arr;
+
+    arr = NewArr;
+}
+
+int main(int argc, char **argv) {
+
     srand(time(NULL));
-    
-    int** nums = new int* [SIZE];
 
-    FillArray(nums, SIZE);
+    int SIZE = 5;
 
-    for (int i = 0; i < SIZE; i++) {
-        for (int j = 0; j < SIZE; j++) {
-            std::cout << *(*(nums + i) + j) << std::endl;
-        }
-        if (i == SIZE - 1) {
-            std::cout << "======================" << std::endl;
-            }
-    }
+    int &size = SIZE;
 
-    int** nums2 = new int* [SIZE_LOW_LOW];
+    int* nums = new int[size];
 
-    FillArray(nums2, SIZE_LOW_LOW);
+    std::cout << *nums << " " << nums << " size = " << size << std::endl;
 
-    for (int i = 0; i < SIZE_LOW_LOW; i++) {
-        for (int j = 0; j < SIZE_LOW_LOW; j++) {
-            std::cout << *(*(nums2 + i) + j) << std::endl;
-        }
-        if (i == SIZE_LOW_LOW - 1) {
-            std::cout << "======================" << std::endl;
-            }
-    }
+    FillArray(nums, size);
 
-    delete [] nums;
+    ShowArray(nums, size);
 
-    nums = new int* [SIZE_LOW_LOW];
+    std::cout << nums[1] << " " << *(nums + 1) << " " << nums << " " << &nums << " " << " size = " << size << std::endl << std::endl << std::endl;
 
-    for (int i = 0; i < SIZE_LOW_LOW; i++) {
-        *(nums + i) = new int [SIZE_LOW_LOW];
-        for (int j = 0; j < SIZE_LOW_LOW; j++) {
-            *(*(nums + i) + j) = *(*(nums2 + i) + j);
-        }
-    }
+    AddNumArray(nums, size, 17);
 
-    for (int i = 0; i < SIZE_LOW_LOW; i++) {
-        for (int j = 0; j < SIZE_LOW_LOW; j++) {
-            std::cout << *(*(nums + i) + j) << std::endl;
-        }
-        if (i == SIZE_LOW_LOW - 1) {
-            std::cout << "======================" << std::endl;
-            }
-    }
+    ShowArray(nums, size);
 
-    delete [] nums2;
+    AddNumArray(nums, size, 28);
+
+    ShowArray(nums, size);
 
     delete [] nums;
 
     return 0;
 }
-
