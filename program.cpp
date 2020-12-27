@@ -21,8 +21,12 @@ void ShowArray(int* array, const int size) { // show an array in the console
     }
 }
 
-void AddNumArray(int* arr, int& size, const int value) { // add a number
+void AddNumArray(int*& arr, int& size, const int value) { // add a number
     int* NewArr = new int[size + 1];
+
+    std::cout << arr << " " << *arr << " " << *&arr << " " << " - it's old array" << std::endl;
+
+    std::cout << NewArr << " " << *NewArr << " " << *&NewArr << " " << " - it's new array" << std::endl;
 
     for (int i = 0; i < size; i++) {
         NewArr[i] = arr[i];
@@ -52,10 +56,10 @@ void RemoveNumArray(int*& array, int& size, int value) { // remove any number fr
     for (int i = 0; i < size; i++) {
 
         if (i == value) {
-            arr[i] = array[++j];
+            arr[i] = *(array + ++j);
             j++;
         } else {
-            arr[i] = array[j];
+            arr[i] = *(array + j);
             j++;
         }
     }
@@ -112,19 +116,22 @@ int main(int argc, char **argv) {
     // std::cout << *&nums << " " << *(nums + 0) << std::endl;
     // std::cout << (nums + 0) << std::endl << std::endl << std::endl;
 
-    // int* age = new int [size];
+    int* age = new int [size];
 
-    // FillArray(age, size);
+    FillArray(age, size);
 
-    // ShowArray(age, size);
+    ShowArray(age, size);
 
-    // AddNumArray(age, size, 17);
+    std::cout << age << " " << *age << " " << &age << " " << *(&age + 0) << " " << *(age + 0) << " " << &age[0] << std::endl << std::endl; 
 
-    // // RemoveNumArray(age, size, 3);
 
-    // ShowArray(age, size);
+    AddNumArray(age, size, 17);
 
-    // std::cout << age << " " << &age << " " << *(&age + 0) << " " << *(age + 0) << " " << &age[0] << std::endl; 
+    RemoveNumArray(age, size, 3);
+
+    ShowArray(age, size);
+
+    std::cout << age << " " << *age << " " << &age << " " << *(&age + 0) << " " << *(age + 0) << " " << &age[0] << std::endl; 
 
     int** nums = new int* [size - 2];
 
@@ -134,10 +141,6 @@ int main(int argc, char **argv) {
 
     DeleteArrays(nums, size - 2);
     delete [] nums;
-
-    int ages[] = {17, 28};
-
-    std::cout << **&ages << " " << ages << " " << *ages << std::endl;
 
     return 0;
 }
