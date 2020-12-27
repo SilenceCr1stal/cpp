@@ -21,7 +21,7 @@ void ShowArray(int* array, const int size) { // show an array in the console
     }
 }
 
-void AddNumArray(int*& arr, int& size, const int value) { // add a number
+void AddNumArray(int* arr, int& size, const int value) { // add a number
     int* NewArr = new int[size + 1];
 
     for (int i = 0; i < size; i++) {
@@ -63,6 +63,33 @@ void RemoveNumArray(int*& array, int& size, int value) { // remove any number fr
     delete [] array;
 
     array = arr;
+
+}
+
+void FillTwoArray(int** array, const int size1, const int size2) {
+    for (int i = 0; i < size1; i++) {
+        array[i] = new int [size2];
+        for (int j = 0; j < size2; j++) {
+            array[i][j] = rand() % 100;
+        }
+    }
+}
+
+void ShowTwoArray(int** array, const int size1, const int size2) {
+    for (int i = 0; i < size1; i++) {
+        for (int j = 0; j < size2; j++) {
+            std::cout << array[i][j] << " ";
+            if (j == size2 - 1) {
+                std::cout << std::endl;
+            }
+        }
+    }
+}
+
+void DeleteArrays(int** array, const int size) {
+    for (int i = 0; i < size; i++) {
+        delete [] array[i];
+    }
 }
 
 int main(int argc, char **argv) {
@@ -71,49 +98,46 @@ int main(int argc, char **argv) {
 
     int size = 5;
 
-    int* nums = new int[size];
+    // int* nums = new int[size];
 
-    FillArray(nums, size);
+    // FillArray(nums, size);
 
-    ShowArray(nums, size);
+    // ShowArray(nums, size);
 
-    std::cout << *&nums << " " << &nums[0] << std::endl;
-    std::cout << (nums + 0) << " " << *(nums + 0) << std::endl << std::endl;
+    // std::cout << *&nums << " " << &nums[0] << std::endl;
+    // std::cout << (nums + 0) << " " << *(nums + 0) << std::endl << std::endl;
 
-    AddNumArray(nums, size, 17);
+    // AddNumArray(nums, size, 17);
     
-    std::cout << *&nums << " " << *(nums + 0) << std::endl;
-    std::cout << (nums + 0) << std::endl << std::endl << std::endl;
+    // std::cout << *&nums << " " << *(nums + 0) << std::endl;
+    // std::cout << (nums + 0) << std::endl << std::endl << std::endl;
 
-    int* age = new int [size];
+    // int* age = new int [size];
 
-    FillArray(age, size);
+    // FillArray(age, size);
 
-    ShowArray(age, size); // 88 35 7 71 57 14
+    // ShowArray(age, size);
 
-    // int& linkAge = age[0];
+    // AddNumArray(age, size, 17);
 
-    // std::cout << linkAge << " " << &linkAge << " " << &age << " " << *(&age + 0) << " " << &age[1] << std::endl; 
+    // // RemoveNumArray(age, size, 3);
 
-    RemoveNumArray(age, size, 2);
+    // ShowArray(age, size);
 
-    ShowArray(age, size); // 88 7 71 57 14
+    // std::cout << age << " " << &age << " " << *(&age + 0) << " " << *(age + 0) << " " << &age[0] << std::endl; 
 
-    AddNumArray(age, size, 17);
+    int** nums = new int* [size - 2];
 
-    ShowArray(age, size); // 88 7 71 57 14 17
+    FillTwoArray(nums, size - 2, size);
 
-    RemoveNumArray(age, size, 4);
+    ShowTwoArray(nums, size - 2, size);
 
-    ShowArray(age, size); // 88 7 71 14 17
-    
-    RemoveNumArray(age, size, 1);
+    DeleteArrays(nums, size - 2);
+    delete [] nums;
 
-    ShowArray(age, size); // 7 71 14 17
+    int ages[] = {17, 28};
 
-    AddNumArray(age, size, 28);
-
-    ShowArray(age, size); // 7 71 14 17 28
+    std::cout << **&ages << " " << ages << " " << *ages << std::endl;
 
     return 0;
 }
