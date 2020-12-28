@@ -13,4 +13,10 @@ class birthday {
         const unsigned int year;
 };
 
+birthday::birthday(int _day, int _month, int _year) : day(_day), month(_month), year(_year) {}
+
+void birthday::printDate() {
+    std::cout << day << "/" << month << "/" << year << std::endl;
+}
+
 #endif // !BIRTHDAY_H
