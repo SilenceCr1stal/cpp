@@ -11,6 +11,8 @@ class city {
         unsigned int square;
         std::string name;
         building build1;
+        friend void aboutMen(human &human1);
 };
+
 
 #endif // !CITY_H

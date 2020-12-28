@@ -14,6 +14,8 @@ class human {
         unsigned short int age;
         std::string name;
         birthday date;
+        friend void checkAge(human &human1);
 };
+
 
 #endif // !HUMAN_H

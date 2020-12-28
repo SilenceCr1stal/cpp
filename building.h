@@ -12,4 +12,5 @@ class building {
         human human1;
     };
 
+
 #endif

@@ -65,5 +65,9 @@ int main(int argc, char **argv) {
 
     town->printInfo();
     delete town;
+    delete build1;
+    delete human1;
+    delete date;
+
     return 0;
 }
