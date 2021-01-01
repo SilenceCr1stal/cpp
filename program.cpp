@@ -1,17 +1,41 @@
 #include <iostream>
+#include <cmath>
+#include <string>
 #include <string.h>
-#include <ctime>
 
-int v[10] = {42};
-int& g(int i) {
-    return v[i];
+template<typename Type>
+Type getSum(Type a, Type b) {
+    return a + b;
+}
+template<typename Type>
+Type getComp(Type a, Type b) {
+    return a * b;
+}
+template<typename Type>
+Type getDiv(Type a, Type b) {
+    return a / b;
+}
+
+template<typename Type>
+void ShowInfo(Type(*func)(Type a, Type b), Type a, Type b) {
+    std::cout << func(a, b) << std::endl;
 }
 
 int main(int argc, char **argv) {
-    
-    g(3) = 7;
 
-    std::cout << v[1] << v[2] << v[3] << std::endl;
+    setlocale(LC_ALL, "Rus");
+
+    char* name;
+
+    double num1 = 7.5, num2 = 1.5;
+
+    goto sum;
+
+    std::cin >> name;
+
+    sum:
+
+    ShowInfo(getSum, num1, num2);
 
     return 0;
 }
