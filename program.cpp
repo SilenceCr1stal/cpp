@@ -1,43 +1,72 @@
 #include <iostream>
 #include <cmath>
 #include <string>
+#include <string.h>
 #include <limits>
 
-void FillArray(int* array, const int size);
-class Point {
-    int ArrSize;
-    int* x;
-    int* y;
+#define COUNT 3
+class Cable {
+    std::string color;
+    int length;
+    char** types;
+    float price;
 public:
-    Point(int size) {
-        std::cout << "Constructor was called" << std::endl;
-        x = new int[size];
-        y = new int[size];
-        FillArray(x, size);
-        FillArray(y, size);
-        ArrSize = size;
+    Cable() {
+        std::cout << "Empty constructor has been called - " << this << std::endl;
     }
-    ~Point() {
-        delete[] x;
-        delete[] y;
-        std::cout << "Destructor was called" << std::endl;
-    }
-    void GetX() {
-        for (int i = 0; i < ArrSize; i++) {
-            std::cout << x[i] << "\t";
-            if (i == ArrSize - 1) {
-                std::cout << std::endl;
+    Cable(int length, float price) {
+        char** types = new char*[COUNT];
+        for (int i = 0; i < COUNT; i++) {
+            types[i] = "Type-C";
+            if (i == 1) {
+                types[i] = "Mini-B";
+            } else if (i == 2) {
+                types[i] = "Type-A";
             }
         }
+        std::cout << "Constructor has been called - " << this << std::endl;
+        this->length = length;
+        this->types = types;
+        this->price = price;
     }
-    void GetY() {
-        for (int i = 0; i < ArrSize; i++) {
-            std::cout << y[i] << "\t";
-            if (i == ArrSize - 1) {
-                std::cout << std::endl;
+    Cable(const Cable& cable) {
+        std::cout << "The copy constructor has been called - " << this << std::endl;
+        char** types = new char*[COUNT];
+        for (int i = 0; i < COUNT; i++) {
+            types[i] = "Type-A";
+            if (i == 1) {
+                types[i] = "Type-C";
+            } else if (i == 2) {
+                types[i] = "Mini-B";
             }
         }
+        this->types = types;
+        this->length = cable.length << 1;
+        this->price = cable.price / 3;
     }
+    ~Cable() {
+        std::cout << "Destructor has been called - " << this << std::endl;
+        // DeleteArray(this->types);
+        delete[] this->types;
+        this->types = nullptr;
+    }
+    void SetColor(std::string color) {
+        this->color = color;
+    }
+    std::string GetColor() {
+        return this->color;
+    }
+    void printInfo(int type) {
+        std::cout << "Function \'printInfo\' has been called for object - " << this << std::endl;
+        std::cout << "Type of cable - " << this->types[type] << "\tColor - " << this->color << std::endl;
+        std::cout << "Price per piece - " << this->price << "\tHis length - " << this->length << std::endl;
+    }
+    // void DeleteArray(char** types) {
+    //     for (int i = 0; i < COUNT; i++) {
+    //         std::cout << types[i][i] << std::endl;
+    //         delete[] types[i];
+    //     }
+    // }
 };
 
 int main(int argc, char **argv) {
@@ -45,16 +74,17 @@ int main(int argc, char **argv) {
     setlocale(LC_ALL, "Rus");
     srand(static_cast<int>(time(NULL)));
     
-    Point human(5);
 
-    human.GetX();
-    human.GetY();
+    Cable cable1(20, 150.75);
+    std::cout << std::endl;
+    cable1.SetColor("white");
+    cable1.printInfo(2);
+    std::cout << std::endl;
+    Cable cable2(cable1);
+    std::cout << std::endl;
+    cable2.SetColor("black");
+    cable2.printInfo(1);
+    std::cout << std::endl;
 
     return 0;
-}
-
-void FillArray(int* array, const int size) {
-    for (int i = 0; i < size; i++) {
-        array[i] = rand() % 100;
-    }
 }
