@@ -67,7 +67,7 @@ public:
     //         delete[] types[i];
     //     }
     // }
-    void operator = (const Cable& cable) {
+    Cable& operator = (const Cable& cable) {
         if (this->types != nullptr) {
             delete[] types;
         }
@@ -78,6 +78,8 @@ public:
         this->color = cable.color;
         this->length = cable.length;
         this->price = cable.price;
+        
+        return *this;
     }
 };
 
@@ -90,53 +92,55 @@ int main(int argc, char **argv) {
     Cable cable1(20, 150.75);
     std::cout << std::endl;
     cable1.SetColor("white");
-    cable1.printInfo(2);
     std::cout << std::endl;
     Cable cable2 = cable1;
     std::cout << std::endl;
     cable2.SetColor("black");
-    cable2.printInfo(1);
-
+    
+    Cable cable3(50, 100.50);
+    cable3.SetColor("blue");
     std::cout << std::endl;
     std::cout << std::endl;
     std::cout << std::endl;
 
-    cable1 = cable2;
-    std::cout << std::endl;
+    cable1 = cable3 = cable2;
     cable1.printInfo(2);
     std::cout << std::endl;
-    std::cout << std::endl;
+
     cable2.printInfo(2);
+    std::cout << std::endl;
+
+    cable3.printInfo(2);
+    std::cout << std::endl;
 
     return 0;
 }
 
 /*
 
-Constructor has been called - 0x7ffc57cb7eb0
+Constructor has been called - 0x7fff9ac27a70
 
-Function 'printInfo' has been called for object - 0x7ffc57cb7eb0
-Type of cable - Type-A  Color - white
-Price per piece - 150.75        His length - 20
 
-The copy constructor has been called - 0x7ffc57cb7e70
+The copy constructor has been called - 0x7fff9ac27a30
 
-Function 'printInfo' has been called for object - 0x7ffc57cb7e70
-Type of cable - Type-C  Color - black
-Price per piece - 50.25 His length - 40
+Constructor has been called - 0x7fff9ac279f0
 
 
 
-
-Function 'printInfo' has been called for object - 0x7ffc57cb7eb0
+Function 'printInfo' has been called for object - 0x7fff9ac27a70
 Type of cable - Mini-B  Color - black
 Price per piece - 50.25 His length - 40
 
-
-Function 'printInfo' has been called for object - 0x7ffc57cb7e70
+Function 'printInfo' has been called for object - 0x7fff9ac27a30
 Type of cable - Mini-B  Color - black
 Price per piece - 50.25 His length - 40
-Destructor has been called - 0x7ffc57cb7e70
-Destructor has been called - 0x7ffc57cb7eb0
+
+Function 'printInfo' has been called for object - 0x7fff9ac279f0
+Type of cable - Mini-B  Color - black
+Price per piece - 50.25 His length - 40
+
+Destructor has been called - 0x7fff9ac279f0
+Destructor has been called - 0x7fff9ac27a30
+Destructor has been called - 0x7fff9ac27a70
 
 */
