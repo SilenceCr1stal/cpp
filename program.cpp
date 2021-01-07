@@ -122,18 +122,10 @@ public:
         std::cout << "X = " << x << "\tY = " << y << std::endl;
     }
     bool operator == (const Point& point) {
-        if (this->x == point.x && this->y == point.y) { 
-            return true;
-        } else {
-            return false;
-        }
+        return this->x == point.x && this->y == point.y;
     }
     bool operator != (const Point& point) {
-        if (this->x == point.x && this->y == point.y) { 
-            return false;
-        } else {
-            return true;
-        }
+        return !(this->x == point.x && this->y == point.y);
     }
 };
 
@@ -155,12 +147,12 @@ int main(int argc, char **argv) {
     Cable cable5;
     cable5 = cable1;
 
-    bool ab = a == b; // 0
-    bool ac = a == c; // 0
-    bool ad = a == d; // 1
-    bool bc = b == c; // 0
-    bool cd = c == d; // 0
-    bool da = d == a; // 1
+    bool ab = a.operator!=(b); // 0
+    bool ac = a.operator==(c); // 0
+    bool ad = a.operator==(d); // 1
+    bool bc = b.operator!=(c); // 0
+    bool cd = c.operator!=(d); // 0
+    bool da = d.operator==(a); // 1
 
     std::cout << ab << " " << ac << " " << ad << " " << bc << " " << cd << " " << da << std::endl;
 
