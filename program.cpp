@@ -1,6 +1,6 @@
 #include <iostream>
 #include <cmath>
-#include <string>
+// #include <string>
 #include <string.h>
 #include <limits>
 
@@ -129,153 +129,90 @@ public:
     }
 };
 
+class String {
+    char* str;
+public:
+    String() {
+        str = nullptr;
+        std::cout << "Empty constructor has been called - " << this << std::endl;
+        str = new char[1];
+        str = "\0";
+    }
+    String(char* str) {
+        std::cout << "Constructor has been called - " << this << std::endl;
+        int length = strlen(str);
+        this->str = new char[length];
+        for (int i = 0; i < length; i++) {
+            this->str[i] = str[i];
+        }
+    }
+    String(const String& string) {
+        std::cout << "Copy constructor has been called - " << this << std::endl;
+        int length = strlen(string.str);
+        this->str = new char[length];
+        for (int i = 0; i < length; i++) {
+            this->str[i] = string.str[i];
+        }
+    }
+    ~String() {
+        std::cout << "Destructor has been called - " << this << std::endl;
+        if (this->str != nullptr) {
+            delete[] str;
+            this->str = nullptr;
+        }
+    }
+    void printInfo() {
+        std::cout << str << std::endl;
+    }
+    String operator + (const String& string) {
+        String str;
+        int len1 = strlen(this->str);
+        int len2 = strlen(string.str);
+        str.str = new char[len1 + len2 + 1];
+        int i = 0;
+        for (; i < len1; i++) {
+            str.str[i] = this->str[i];
+        }
+        for (int j = 0; i < len1 + len2; i++, j++) {
+            str.str[i] = string.str[j];
+        }
+        str.str[len1 + len2] = '\0';
+        return str;
+    }
+    String& operator = (const String& string) {
+        if (this->str != nullptr) {
+            this->str = nullptr;
+        }
+        int length = strlen(string.str);
+        this->str = new char[length];
+        for (int i = 0; i < length; i++) {
+            this->str[i] = string.str[i];
+        }
+        return *this;
+    }
+};
+
 int main(int argc, char **argv) {
 
     setlocale(LC_ALL, "Rus");
     srand(static_cast<int>(time(NULL)));
     
-    Point a(15, 76);
-    Point b(14, 76);
-    Point c(15, 75);
-    Point d(15, 76);
+    String str = "Nikita";
+    String str2;
+    str2 = str;
 
-    Cable cable1(15, 55.75);
-    Cable cable2(15, 55.55);
-    Cable cable3 = cable1;
-    Cable cable4;
-    cable4 = cable2;
-    Cable cable5;
-    cable5 = cable1;
-
-    bool ab = a.operator!=(b); // 0
-    bool ac = a.operator==(c); // 0
-    bool ad = a.operator==(d); // 1
-    bool bc = b.operator!=(c); // 0
-    bool cd = c.operator!=(d); // 0
-    bool da = d.operator==(a); // 1
-
-    std::cout << ab << " " << ac << " " << ad << " " << bc << " " << cd << " " << da << std::endl;
-
-    bool c1c2 = cable1 == cable2;
-    bool c1c3 = cable1 == cable3;
-    bool c1c4 = cable1 == cable4;
-    bool c1c5 = cable1 == cable5;
-    bool c2c1 = cable2 == cable1;
-    bool c2c3 = cable2 == cable3;
-    bool c2c4 = cable2 == cable4;
-    bool c2c5 = cable2 == cable5;
-    bool c3c1 = cable3 == cable1;
-    bool c3c2 = cable3 == cable2;
-    bool c3c4 = cable3 == cable4;
-    bool c3c5 = cable3 == cable5;
-    bool c4c1 = cable4 == cable1;
-    bool c4c2 = cable4 == cable2;
-    bool c4c3 = cable4 == cable3;
-    bool c4c5 = cable4 == cable5;
-    bool c5c1 = cable5 == cable1;
-    bool c5c2 = cable5 == cable2;
-    bool c5c3 = cable5 == cable3;
-    bool c5c4 = cable5 == cable4;
-
-    cable1.printInfo(1);
+    str.printInfo();
     std::cout << std::endl;
-    cable2.printInfo(1);
-    std::cout << std::endl;
-    cable3.printInfo(1);
-    std::cout << std::endl;
-    cable4.printInfo(1);
-    std::cout << std::endl;
-    cable5.printInfo(1);
-    std::cout << std::endl;
+    str2.printInfo();
 
-    std::cout << "c1c2 = " << c1c2 << "\tc1c3 = " << c1c3 << "\tc1c4 = " << c1c4 << "\tc1c5 = " << c1c5 << std::endl;
-    std::cout << "c2c1 = " << c2c1 << "\tc2c3 = " << c2c3 << "\tc2c4 = " << c2c4 << "\tc2c5 = " << c2c5 << std::endl;
-    std::cout << "c3c1 = " << c3c1 << "\tc3c2 = " << c3c2 << "\tc3c4 = " << c3c4 << "\tc3c5 = " << c3c5 << std::endl;
-    std::cout << "c4c1 = " << c4c1 << "\tc4c2 = " << c4c2 << "\tc4c3 = " << c4c3 << "\tc4c5 = " << c4c5 << std::endl;
-    std::cout << "c5c1 = " << c5c1 << "\tc5c2 = " << c5c2 << "\tc5c3 = " << c5c3 << "\tc5c4 = " << c5c4 << std::endl << std::endl;
+    String str3 = str + str2;
+    str3.printInfo();
 
-    c1c2 = cable1 != cable2;
-    c1c3 = cable1 != cable3;
-    c1c4 = cable1 != cable4;
-    c1c5 = cable1 != cable5;
-    c2c1 = cable2 != cable1;
-    c2c3 = cable2 != cable3;
-    c2c4 = cable2 != cable4;
-    c2c5 = cable2 != cable5;
-    c3c1 = cable3 != cable1;
-    c3c2 = cable3 != cable2;
-    c3c4 = cable3 != cable4;
-    c3c5 = cable3 != cable5;
-    c4c1 = cable4 != cable1;
-    c4c2 = cable4 != cable2;
-    c4c3 = cable4 != cable3;
-    c4c5 = cable4 != cable5;
-    c5c1 = cable5 != cable1;
-    c5c2 = cable5 != cable2;
-    c5c3 = cable5 != cable3;
-    c5c4 = cable5 != cable4;
-
-    std::cout << "c1c2 = " << c1c2 << "\tc1c3 = " << c1c3 << "\tc1c4 = " << c1c4 << "\tc1c5 = " << c1c5 << std::endl;
-    std::cout << "c2c1 = " << c2c1 << "\tc2c3 = " << c2c3 << "\tc2c4 = " << c2c4 << "\tc2c5 = " << c2c5 << std::endl;
-    std::cout << "c3c1 = " << c3c1 << "\tc3c2 = " << c3c2 << "\tc3c4 = " << c3c4 << "\tc3c5 = " << c3c5 << std::endl;
-    std::cout << "c4c1 = " << c4c1 << "\tc4c2 = " << c4c2 << "\tc4c3 = " << c4c3 << "\tc4c5 = " << c4c5 << std::endl;
-    std::cout << "c5c1 = " << c5c1 << "\tc5c2 = " << c5c2 << "\tc5c3 = " << c5c3 << "\tc5c4 = " << c5c4 << std::endl;
-    std::cout << std::endl;
     return 0;
 }
 
 /*
 
-Constructor has been called - 0x7ffd049024bc
-Constructor has been called - 0x7ffd049024b4
-Constructor has been called - 0x7ffd049024ac
-Constructor has been called - 0x7ffd049024a4
-Constructor has been called - 0x7ffd04902460
-Constructor has been called - 0x7ffd04902420
-The copy constructor has been called - 0x7ffd049023e0
-Empty constructor has been called - 0x7ffd049023a0
-Empty constructor has been called - 0x7ffd04902360
-0 0 1 0 0 1
-Function 'printInfo' has been called for object - 0x7ffd04902460
-Type of cable - Mini-B  Color - 
-Price per piece - 55.75 His length - 15
 
-Function 'printInfo' has been called for object - 0x7ffd04902420
-Type of cable - Mini-B  Color - 
-Price per piece - 55.55 His length - 15
-
-Function 'printInfo' has been called for object - 0x7ffd049023e0
-Type of cable - Type-C  Color - 
-Price per piece - 18.5833       His length - 30
-
-Function 'printInfo' has been called for object - 0x7ffd049023a0
-Type of cable - Mini-B  Color - 
-Price per piece - 55.55 His length - 15
-
-Function 'printInfo' has been called for object - 0x7ffd04902360
-Type of cable - Mini-B  Color - 
-Price per piece - 55.75 His length - 15
-
-c1c2 = 0        c1c3 = 0        c1c4 = 0        c1c5 = 1
-c2c1 = 0        c2c3 = 0        c2c4 = 1        c2c5 = 0
-c3c1 = 0        c3c2 = 0        c3c4 = 0        c3c5 = 0
-c4c1 = 0        c4c2 = 1        c4c3 = 0        c4c5 = 0
-c5c1 = 1        c5c2 = 0        c5c3 = 0        c5c4 = 0
-
-c1c2 = 1        c1c3 = 1        c1c4 = 1        c1c5 = 0
-c2c1 = 1        c2c3 = 1        c2c4 = 0        c2c5 = 1
-c3c1 = 1        c3c2 = 1        c3c4 = 1        c3c5 = 1
-c4c1 = 1        c4c2 = 0        c4c3 = 1        c4c5 = 1
-c5c1 = 0        c5c2 = 1        c5c3 = 1        c5c4 = 1
-
-Destructor has been called - 0x7ffd04902360
-Destructor has been called - 0x7ffd049023a0
-Destructor has been called - 0x7ffd049023e0
-Destructor has been called - 0x7ffd04902420
-Destructor has been called - 0x7ffd04902460
-Destructor has been called - 0x7ffd049024a4
-Destructor has been called - 0x7ffd049024ac
-Destructor has been called - 0x7ffd049024b4
-Destructor has been called - 0x7ffd049024bc
 
 */
