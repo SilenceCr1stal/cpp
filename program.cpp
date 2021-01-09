@@ -10,14 +10,15 @@ class Cable {
     int length;
     char** types;
     float price;
+    int LENGTH = COUNT;
 public:
     Cable() {
         std::cout << "Empty constructor has been called - " << this << std::endl;
         this->types = nullptr;
     }
     Cable(int length, float price) {
-        char** types = new char*[COUNT];
-        for (int i = 0; i < COUNT; i++) {
+        char** types = new char*[LENGTH];
+        for (int i = 0; i < LENGTH; i++) {
             types[i] = "Type-C";
             if (i == 1) {
                 types[i] = "Mini-B";
@@ -29,11 +30,12 @@ public:
         this->length = length;
         this->types = types;
         this->price = price;
+        color = "white"; // default
     }
     Cable(const Cable& cable) {
         std::cout << "The copy constructor has been called - " << this << std::endl;
-        char** types = new char*[COUNT];
-        for (int i = 0; i < COUNT; i++) {
+        char** types = new char*[LENGTH];
+        for (int i = 0; i < LENGTH; i++) {
             types[i] = "Type-A";
             if (i == 1) {
                 types[i] = "Type-C";
@@ -67,8 +69,8 @@ public:
         if (this->types != nullptr) {
             delete[] types;
         }
-        this->types = new char*[COUNT];
-        for (int i = 0; i < COUNT; i++) {
+        this->types = new char*[LENGTH];
+        for (int i = 0; i < LENGTH; i++) {
             types[i] = cable.types[i];
         }
         this->color = cable.color;
@@ -79,7 +81,7 @@ public:
     }
     bool operator == (const Cable& cable) {
         if (this->length == cable.length && this->price == cable.price && this->color == cable.color) {
-            for (int i = 0; i < COUNT; i++) {
+            for (int i = 0; i < LENGTH; i++) {
                 if (this->types[i] != cable.types[i]) {
                     return false;
                 }
@@ -91,7 +93,7 @@ public:
     }
     bool operator != (const Cable& cable) {
         if (this->length == cable.length && this->price == cable.price && this->color == cable.color) {
-            for (int i = 0; i < COUNT; i++) {
+            for (int i = 0; i < LENGTH; i++) {
                 if (this->types[i] != cable.types[i]) {
                     return true;
                 }
@@ -100,6 +102,46 @@ public:
         } else {
             return true;
         }
+    }
+    Cable& operator ++() {
+        this->length++;
+        this->price++;
+        return *this;
+    }
+    Cable& operator ++(int i) {
+        this->length++;
+        this->price++;
+        return *this;
+    }
+    Cable& operator --() {
+        char** NewTypes = new char*[--LENGTH];
+        for (int i = 0; i < LENGTH; i++) {
+            NewTypes[i] = this->types[i];
+        }
+        this->types = new char*[LENGTH];
+        for (int i = 0; i < LENGTH; i++) {
+            this->types[i] = NewTypes[i];
+        }
+        delete[] NewTypes;
+        NewTypes = nullptr;
+        this->length--;
+        this->price--;
+        return *this;
+    }
+    Cable& operator --(int i) {
+        char** NewTypes = new char*[--LENGTH];
+        for (int i = 0; i < LENGTH; i++) {
+            NewTypes[i] = this->types[i];
+        }
+        this->types = new char*[LENGTH];
+        for (int i = 0; i < LENGTH; i++) {
+            this->types[i] = NewTypes[i];
+        }
+        delete[] NewTypes;
+        NewTypes = nullptr;
+        this->length--;
+        this->price--;
+        return *this;
     }
 };
 
@@ -197,22 +239,78 @@ int main(int argc, char **argv) {
     setlocale(LC_ALL, "Rus");
     srand(static_cast<int>(time(NULL)));
     
-    String str = "Nikita";
-    String str2;
-    str2 = str;
+    // String str = "Nikita";
+    // String str2;
+    // str2 = str;
 
-    str.printInfo();
+    // str.printInfo();
+    // std::cout << std::endl;
+    // str2.printInfo();
+
+    // String str3 = str + str2;
+    // str3.printInfo();
+
+    Cable cable1(19, 51.55);
+    cable1.printInfo(0);
     std::cout << std::endl;
-    str2.printInfo();
+    cable1++;
 
-    String str3 = str + str2;
-    str3.printInfo();
+    Cable cable2;
+    cable2 = cable1;
+
+    cable1.printInfo(0);
+    std::cout << std::endl;
+    cable2.printInfo(0);
+    std::cout << std::endl;
+    std::cout << std::endl;
+    std::cout << std::endl;
+    --cable1;
+    cable1.printInfo(0);
+    cable1.printInfo(1);
+    std::cout << std::endl;
+    std::cout << std::endl;
+    std::cout << std::endl;
+    cable1--;
+    cable1.printInfo(0);
+    cable1.printInfo(1);
 
     return 0;
 }
 
 /*
 
+Constructor has been called - 0x7ffcd89cf0b0
+Function 'printInfo' has been called for object - 0x7ffcd89cf0b0
+Type of cable - Type-C  Color - white
+Price per piece - 51.55 His length - 19
 
+Empty constructor has been called - 0x7ffcd89cf070
+Function 'printInfo' has been called for object - 0x7ffcd89cf0b0
+Type of cable - Type-C  Color - white
+Price per piece - 52.55 His length - 20
+
+Function 'printInfo' has been called for object - 0x7ffcd89cf070
+Type of cable - Type-C  Color - white
+Price per piece - 52.55 His length - 20
+
+
+
+Function 'printInfo' has been called for object - 0x7ffcd89cf0b0
+Type of cable - Type-C  Color - white
+Price per piece - 51.55 His length - 19
+Function 'printInfo' has been called for object - 0x7ffcd89cf0b0
+Type of cable - Mini-B  Color - white
+Price per piece - 51.55 His length - 19
+
+
+
+Function 'printInfo' has been called for object - 0x7ffcd89cf0b0
+Type of cable - Type-C  Color - white
+Price per piece - 50.55 His length - 18
+Function 'printInfo' has been called for object - 0x7ffcd89cf0b0
+Type of cable - �ދ      <V      Color - white
+Price per piece - 50.55 His length - 18
+Destructor has been called - 0x7ffcd89cf070
+Destructor has been called - 0x7ffcd89cf0b0
 
 */
