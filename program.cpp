@@ -173,28 +173,36 @@ public:
 
 class String {
     char* str;
+    int size;
 public:
     String() {
         str = nullptr;
         std::cout << "Empty constructor has been called - " << this << std::endl;
-        str = new char[1];
-        str = "\0";
+        this->size = 0;
+        // str = new char[1];
+        // str = "\0";
     }
     String(char* str) {
         std::cout << "Constructor has been called - " << this << std::endl;
-        int length = strlen(str);
-        this->str = new char[length];
-        for (int i = 0; i < length; i++) {
+        this->size = strlen(str);
+        this->str = new char[this->size + 1];
+        for (int i = 0; i < this->size; i++) {
             this->str[i] = str[i];
         }
+        this->str[this->size] = '\0';
     }
     String(const String& string) {
         std::cout << "Copy constructor has been called - " << this << std::endl;
-        int length = strlen(string.str);
-        this->str = new char[length];
-        for (int i = 0; i < length; i++) {
+        this->size = strlen(string.str);
+        this->str = new char[this->size];
+        for (int i = 0; i < this->size; i++) {
             this->str[i] = string.str[i];
         }
+    }
+    String(String&& string) {
+        this->size = string.size;
+        this->str = string.str;
+        string.str = nullptr;
     }
     ~String() {
         std::cout << "Destructor has been called - " << this << std::endl;
@@ -206,31 +214,53 @@ public:
     void printInfo() {
         std::cout << str << std::endl;
     }
+    int length() {
+        return size;
+    }
     String operator + (const String& string) {
         String str;
         int len1 = strlen(this->str);
         int len2 = strlen(string.str);
-        str.str = new char[len1 + len2 + 1];
+        str.size = len1 + len2;
+        str.str = new char[str.size + 1];
         int i = 0;
         for (; i < len1; i++) {
             str.str[i] = this->str[i];
         }
-        for (int j = 0; i < len1 + len2; i++, j++) {
+        for (int j = 0; i < str.size; i++, j++) {
             str.str[i] = string.str[j];
         }
-        str.str[len1 + len2] = '\0';
+        str.str[str.size] = '\0';
         return str;
     }
     String& operator = (const String& string) {
         if (this->str != nullptr) {
             this->str = nullptr;
         }
-        int length = strlen(string.str);
-        this->str = new char[length];
-        for (int i = 0; i < length; i++) {
+        this->size = strlen(string.str);
+        this->str = new char[this->size + 1];
+        for (int i = 0; i < this->size; i++) {
             this->str[i] = string.str[i];
         }
+        this->str[this->size] = '\0';
         return *this;
+    }
+    bool operator ==(const String& string) {
+        if (this->size != string.size) {
+            return false;
+        }
+        for (int i = 0; i < this->size; i++) {
+            if (this->str[i] != string.str[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+    bool operator !=(const String& string) {
+        return !(this->operator==(string));
+    }
+    char& operator [] (int index) {
+        return this->str[index];
     }
 };
 
@@ -239,78 +269,18 @@ int main(int argc, char **argv) {
     setlocale(LC_ALL, "Rus");
     srand(static_cast<int>(time(NULL)));
     
-    // String str = "Nikita";
-    // String str2;
-    // str2 = str;
+    // String str1 = "Hello";
+    // String str2 = "World";
+    // String str3;
+    // str3 = str1 + str2;
 
-    // str.printInfo();
-    // std::cout << std::endl;
-    // str2.printInfo();
 
-    // String str3 = str + str2;
-    // str3.printInfo();
-
-    Cable cable1(19, 51.55);
-    cable1.printInfo(0);
-    std::cout << std::endl;
-    cable1++;
-
-    Cable cable2;
-    cable2 = cable1;
-
-    cable1.printInfo(0);
-    std::cout << std::endl;
-    cable2.printInfo(0);
-    std::cout << std::endl;
-    std::cout << std::endl;
-    std::cout << std::endl;
-    --cable1;
-    cable1.printInfo(0);
-    cable1.printInfo(1);
-    std::cout << std::endl;
-    std::cout << std::endl;
-    std::cout << std::endl;
-    cable1--;
-    cable1.printInfo(0);
-    cable1.printInfo(1);
 
     return 0;
 }
 
 /*
 
-Constructor has been called - 0x7ffcd89cf0b0
-Function 'printInfo' has been called for object - 0x7ffcd89cf0b0
-Type of cable - Type-C  Color - white
-Price per piece - 51.55 His length - 19
 
-Empty constructor has been called - 0x7ffcd89cf070
-Function 'printInfo' has been called for object - 0x7ffcd89cf0b0
-Type of cable - Type-C  Color - white
-Price per piece - 52.55 His length - 20
-
-Function 'printInfo' has been called for object - 0x7ffcd89cf070
-Type of cable - Type-C  Color - white
-Price per piece - 52.55 His length - 20
-
-
-
-Function 'printInfo' has been called for object - 0x7ffcd89cf0b0
-Type of cable - Type-C  Color - white
-Price per piece - 51.55 His length - 19
-Function 'printInfo' has been called for object - 0x7ffcd89cf0b0
-Type of cable - Mini-B  Color - white
-Price per piece - 51.55 His length - 19
-
-
-
-Function 'printInfo' has been called for object - 0x7ffcd89cf0b0
-Type of cable - Type-C  Color - white
-Price per piece - 50.55 His length - 18
-Function 'printInfo' has been called for object - 0x7ffcd89cf0b0
-Type of cable - �ދ      <V      Color - white
-Price per piece - 50.55 His length - 18
-Destructor has been called - 0x7ffcd89cf070
-Destructor has been called - 0x7ffcd89cf0b0
 
 */
