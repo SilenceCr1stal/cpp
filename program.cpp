@@ -5,6 +5,8 @@
 #include <limits>
 
 #define COUNT 3
+
+class Point;
 class Cable {
     std::string color;
     int length;
@@ -65,21 +67,31 @@ public:
         std::cout << "Type of cable - " << this->types[type] << "\tColor - " << this->color << std::endl;
         std::cout << "Price per piece - " << this->price << "\tHis length - " << this->length << std::endl;
     }
-    Cable& operator = (const Cable& cable) {
-        if (this->types != nullptr) {
-            delete[] types;
-        }
-        this->types = new char*[LENGTH];
-        for (int i = 0; i < LENGTH; i++) {
-            types[i] = cable.types[i];
-        }
-        this->color = cable.color;
-        this->length = cable.length;
-        this->price = cable.price;
-        
-        return *this;
+    void takePoint(const Point& point);
+    Cable& operator = (const Cable& cable);
+    bool operator == (const Cable& cable);
+    bool operator != (const Cable& cable);
+    Cable& operator ++();
+    Cable& operator ++(int);
+    Cable& operator --();
+    Cable& operator --(int);
+};
+
+Cable& Cable::operator = (const Cable& cable) {
+    if (this->types != nullptr) {
+        delete[] types;
     }
-    bool operator == (const Cable& cable) {
+    this->types = new char*[LENGTH];
+    for (int i = 0; i < LENGTH; i++) {
+        types[i] = cable.types[i];
+    }
+    this->color = cable.color;
+    this->length = cable.length;
+    this->price = cable.price;
+    
+    return *this;
+}
+bool Cable::operator == (const Cable& cable) {
         if (this->length == cable.length && this->price == cable.price && this->color == cable.color) {
             for (int i = 0; i < LENGTH; i++) {
                 if (this->types[i] != cable.types[i]) {
@@ -91,63 +103,43 @@ public:
             return false;
         }
     }
-    bool operator != (const Cable& cable) {
-        if (this->length == cable.length && this->price == cable.price && this->color == cable.color) {
-            for (int i = 0; i < LENGTH; i++) {
-                if (this->types[i] != cable.types[i]) {
-                    return true;
-                }
-            }
-            return false;
-        } else {
-            return true;
-        }
-    }
-    Cable& operator ++() {
+bool Cable::operator != (const Cable& cable) {
+    return !(Cable::operator==(cable));
+}
+Cable& Cable::operator ++() {
         this->length++;
         this->price++;
         return *this;
     }
-    Cable& operator ++(int i) {
-        this->length++;
-        this->price++;
-        return *this;
+Cable& Cable::operator++(int) {
+    return Cable::operator++();
+}
+Cable& Cable::operator --() {
+    char** NewTypes = new char*[--LENGTH];
+    for (int i = 0; i < LENGTH; i++) {
+        NewTypes[i] = this->types[i];
     }
-    Cable& operator --() {
-        char** NewTypes = new char*[--LENGTH];
-        for (int i = 0; i < LENGTH; i++) {
-            NewTypes[i] = this->types[i];
-        }
-        this->types = new char*[LENGTH];
-        for (int i = 0; i < LENGTH; i++) {
-            this->types[i] = NewTypes[i];
-        }
-        delete[] NewTypes;
-        NewTypes = nullptr;
-        this->length--;
-        this->price--;
-        return *this;
+    this->types = new char*[LENGTH];
+    for (int i = 0; i < LENGTH; i++) {
+        this->types[i] = NewTypes[i];
     }
-    Cable& operator --(int i) {
-        char** NewTypes = new char*[--LENGTH];
-        for (int i = 0; i < LENGTH; i++) {
-            NewTypes[i] = this->types[i];
-        }
-        this->types = new char*[LENGTH];
-        for (int i = 0; i < LENGTH; i++) {
-            this->types[i] = NewTypes[i];
-        }
-        delete[] NewTypes;
-        NewTypes = nullptr;
-        this->length--;
-        this->price--;
-        return *this;
-    }
-};
+    delete[] NewTypes;
+    NewTypes = nullptr;
+    this->length--;
+    this->price--;
+    return *this;
+}
+Cable& Cable::operator --(int) {
+    return Cable::operator--();
+}
+
+class String;
 
 class Point {
     int x;
     int y;
+
+    friend void Cable::takePoint(const Point& point);
 public:
     Point() {
         std::cout << "Empty constructor has been called - " << this << std::endl;
@@ -163,6 +155,7 @@ public:
     void printInfo() {
         std::cout << "X = " << x << "\tY = " << y << std::endl;
     }
+    char* getString(const String& string);
     bool operator == (const Point& point) {
         return this->x == point.x && this->y == point.y;
     }
@@ -171,16 +164,21 @@ public:
     }
 };
 
+void Cable::takePoint(const Point& point) {
+    std::cout << "x = " << point.x << "\ty = " << point.y << std::endl;
+}
+
 class String {
     char* str;
     int size;
+
+    friend Point; // you can do it one way
+    friend char* Point::getString(const String& string); // or another
 public:
     String() {
         str = nullptr;
         std::cout << "Empty constructor has been called - " << this << std::endl;
         this->size = 0;
-        // str = new char[1];
-        // str = "\0";
     }
     String(char* str) {
         std::cout << "Constructor has been called - " << this << std::endl;
@@ -264,17 +262,24 @@ public:
     }
 };
 
+char* Point::getString(const String& string) {
+    return string.str;
+}
+
 int main(int argc, char **argv) {
 
     setlocale(LC_ALL, "Rus");
     srand(static_cast<int>(time(NULL)));
     
-    // String str1 = "Hello";
-    // String str2 = "World";
-    // String str3;
-    // str3 = str1 + str2;
+    Point point(15, 65);
 
+    Cable cable1(100, 50);
 
+    String str1 = "Hello";
+
+    cable1.takePoint(point);
+
+    std::cout << point.getString(str1) << std::endl;
 
     return 0;
 }
