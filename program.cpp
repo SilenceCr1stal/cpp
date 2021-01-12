@@ -13,10 +13,14 @@ class Cable {
     char** types;
     float price;
     int LENGTH = COUNT;
+    unsigned int id;
 public:
+    static int count;
     Cable() {
         std::cout << "Empty constructor has been called - " << this << std::endl;
         this->types = nullptr;
+        count++;
+        this->id = count;
     }
     Cable(int length, float price) {
         char** types = new char*[LENGTH];
@@ -33,6 +37,8 @@ public:
         this->types = types;
         this->price = price;
         color = "white"; // default
+        count++;
+        this->id = count;
     }
     Cable(const Cable& cable) {
         std::cout << "The copy constructor has been called - " << this << std::endl;
@@ -48,6 +54,8 @@ public:
         this->types = types;
         this->length = cable.length << 1;
         this->price = cable.price / 3;
+        count++;
+        this->id = count;
     }
     ~Cable() {
         std::cout << "Destructor has been called - " << this << std::endl;
@@ -61,6 +69,9 @@ public:
     }
     std::string GetColor() {
         return this->color;
+    }
+    int getId() {
+        return this->id;
     }
     void printInfo(int type) {
         std::cout << "Function \'printInfo\' has been called for object - " << this << std::endl;
@@ -76,6 +87,8 @@ public:
     Cable& operator --();
     Cable& operator --(int);
 };
+
+int Cable::count = 0;
 
 Cable& Cable::operator = (const Cable& cable) {
     if (this->types != nullptr) {
@@ -271,15 +284,14 @@ int main(int argc, char **argv) {
     setlocale(LC_ALL, "Rus");
     srand(static_cast<int>(time(NULL)));
     
-    Point point(15, 65);
+    Cable cable1(50, 25);
+    Cable cable2 = cable1;
+    Cable cable3;
+    cable3 = cable2;
+    std::cout << cable1.getId() << std::endl;
+    std::cout << cable2.getId() << std::endl;
+    std::cout << cable3.getId() << std::endl;
 
-    Cable cable1(100, 50);
-
-    String str1 = "Hello";
-
-    cable1.takePoint(point);
-
-    std::cout << point.getString(str1) << std::endl;
 
     return 0;
 }
