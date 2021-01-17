@@ -14,8 +14,8 @@ class Cable {
     float price;
     int LENGTH = COUNT;
     unsigned int id;
-public:
     static int count;
+public:
     Cable() {
         std::cout << "Empty constructor has been called - " << this << std::endl;
         this->types = nullptr;
@@ -70,6 +70,10 @@ public:
     std::string GetColor() {
         return this->color;
     }
+    static int getCount() {
+        return count;
+    }
+    static void changeCable(Cable& cable, char* type, const int index);
     int getId() {
         return this->id;
     }
@@ -87,6 +91,10 @@ public:
     Cable& operator --();
     Cable& operator --(int);
 };
+
+void Cable::changeCable(Cable& cable, char* type, const int index) {
+    cable.types[index] = type;
+}
 
 int Cable::count = 0;
 
@@ -279,19 +287,56 @@ char* Point::getString(const String& string) {
     return string.str;
 }
 
+class Image {
+
+    const static int countPixel = 5;
+
+    class Pixel {
+        int r;
+        int g;
+        int b;
+    public:
+        Pixel() {
+            r = g = b = 0;
+        }
+        Pixel(int r, int g, int b) {
+            this->r = r;
+            this->g = g;
+            this->b = b;
+        }
+        std::string getInfo() {
+            return "structure of a pixel: r = " + std::to_string(r) + ", g = " 
+                + std::to_string(g) + ", b = " + std::to_string(b);
+        }
+    };
+
+    Pixel *pixel = new Pixel[countPixel];
+    
+public:
+    Image() {
+        std::cout << "Image has been created - " << this << std::endl;
+    }
+    void initializePixel() {
+        for (int i = 0; i < countPixel; i++) {
+            pixel[i] = Pixel(rand() % 256, rand() % 256, rand() % 256);
+        }
+    }
+    void printInfo() {
+        for (int i = 0; i < countPixel; i++) {
+            std::cout << pixel[i].getInfo() << std::endl;
+        }
+    }
+    
+};
+
 int main(int argc, char **argv) {
 
     setlocale(LC_ALL, "Rus");
     srand(static_cast<int>(time(NULL)));
     
-    Cable cable1(50, 25);
-    Cable cable2 = cable1;
-    Cable cable3;
-    cable3 = cable2;
-    std::cout << cable1.getId() << std::endl;
-    std::cout << cable2.getId() << std::endl;
-    std::cout << cable3.getId() << std::endl;
-
+    Image png;
+    png.initializePixel();
+    png.printInfo();
 
     return 0;
 }
