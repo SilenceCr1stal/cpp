@@ -7,6 +7,8 @@
 #define COUNT 3
 
 class Point;
+
+class String;
 class Cable {
     std::string color;
     int length;
@@ -281,7 +283,12 @@ public:
     char& operator [] (int index) {
         return this->str[index];
     }
+    // friend std::ostream& operator << (std::ostream& out, const String& string);
 };
+
+// std::ostream& String::operator << (std::ostream& out, const String& string) {
+//     return out << string.str;
+// }
 
 char* Point::getString(const String& string) {
     return string.str;
@@ -329,14 +336,53 @@ public:
     
 };
 
+class A {
+    int a = 1;
+    int getA() {
+        return a;
+    }
+public:
+    int b = 2;
+    int getB() {
+        return b;
+    }
+protected:
+    int c = 3;
+    int getC() {
+        return c;
+    }
+};
+
+class B : private A {
+    int d = 4;
+public:
+    int e = c;
+protected:
+    int f = d;
+};
+
+class C : protected B {
+    int g = e;
+public:
+    int h = f;
+protected:
+    int i = f;
+};
+
+class D : private C {
+    int j = f;
+public:
+    int k = e;
+protected:
+    int s = i;
+};
+
 int main(int argc, char **argv) {
 
     setlocale(LC_ALL, "Rus");
     srand(static_cast<int>(time(NULL)));
     
-    Image png;
-    png.initializePixel();
-    png.printInfo();
+    
 
     return 0;
 }
